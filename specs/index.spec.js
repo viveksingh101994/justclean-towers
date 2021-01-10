@@ -6,9 +6,8 @@ const { expect } = chai;
 chai.use(chaiHttp);
 
 describe('base route', () => {
-  it('should return Express Server', async () => {
+  it('should return 404', async () => {
     const response = await chai.request(server).get('/').send();
-    expect(response.status).to.be.equal(200);
-    expect(response.text).to.be.equal('Express server');
+    expect(response.status).to.be.equal(404);
   });
 });
