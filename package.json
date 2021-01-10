@@ -12,6 +12,12 @@
     "test:unit": "nyc ./node_modules/.bin/mocha specs",
     "cover:report": "nyc report --reporter=lcov --reporter=text"
   },
+  "husky": {
+    "hooks": {
+      "pre-commit": "npm run fix:eslint",
+      "pre-push": "npm run test:unit"
+    }
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.19.0",
@@ -26,6 +32,7 @@
     "eslint-config-google": "^0.14.0",
     "eslint-config-prettier": "^7.1.0",
     "eslint-plugin-prettier": "^3.3.1",
+    "husky": "^4.3.7",
     "mocha": "^8.2.1",
     "nyc": "^15.1.0",
     "prettier": "^2.2.1"
