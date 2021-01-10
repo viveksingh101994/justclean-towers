@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const towerRoute = require('./tower/tower.route');
+require('./database/connection');
+const towerRoute = require('./modules/tower/tower.route');
 const app = express();
 const { serverError } = require('./common/response');
 
