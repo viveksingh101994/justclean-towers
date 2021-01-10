@@ -1,29 +1,37 @@
-const createError = require('http-errors');
 const express = require('express');
 const bodyParser = require('body-parser');
+const towerRoute = require('./tower/tower.route');
 const app = express();
+const { serverError } = require('./common/response');
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
-app.use('/', (req, res, next) => {
-  res.send('Express server');
-});
+app.use('/towers', towerRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  next(createError(404));
+  res.sendStatus(404);
 });
 
 // error handler
-app.use(function (err, req, res, next) {
+app.use(function (errObj, req, res, next) {
   // set locals, only providing error in development
-  res.locals.message = err.message;
-  res.locals.error = req.app.get('env') === 'development' ? err : {};
+  let errorResp = errObj;
+  if (errObj instanceof Error) {
+    errorResp = serverError();
+    errorResp.err = errObj;
+  }
+  next(errorResp);
+});
 
-  // render the error page
-  res.status(err.status || 500);
-  res.render('error');
+app.use((resData, req, res, next) => {
+  if (resData.status === 200) {
+    res.send(resData.body);
+  } else {
+    res.status(resData.status);
+    res.json(resData.message);
+  }
 });
 
 module.exports = app;

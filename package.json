@@ -3,6 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
+    "prestart": "npm run test:eslint",
     "start": "node index.js",
     "test:prettier": "prettier --list-different \"**/*.{js,css,scss,md}\"",
     "fix:prettier": "prettier --write \"**/*.{js,css,scss,md}\"",
