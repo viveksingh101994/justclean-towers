@@ -10,9 +10,10 @@ const {
   createOfficesValidator,
   findTowerById,
   createNewOffices,
+  validateFindAll,
 } = require('./tower.controller');
 
-router.get('/', getTowers);
+router.get('/', validateFindAll, getTowers);
 router.post('/:id', createOfficesValidator, findTowerById, createNewOffices);
 router.post('/', createTowerValidator, createTower);
 router.put('/:id', createTowerValidator, findTowerById, updateTower);

@@ -51,8 +51,34 @@ const schema = Joi.object({
   longitude: Joi.number(),
 });
 
+const findSchema = Joi.object({
+  name: Joi.string(),
+  id: Joi.number(),
+  number_of_floors: Joi.number(),
+  rating: Joi.number().integer().min(1).max(5),
+  number_of_offices: Joi.number(),
+  page_no: Joi.number(),
+  limit: Joi.number(),
+  ['show-with-offices']: Joi.boolean,
+  sort: Joi.string().valid(
+    ...[
+      '-number_of_floors',
+      'number_of_floors',
+      '-name',
+      'name',
+      'id',
+      '-id',
+      '-rating',
+      'rating',
+      '-number_of_offices',
+      'number_of_offices',
+    ]
+  ),
+});
+
 officesModel.belongsTo(towers, { onDelete: 'CASCADE' });
 module.exports = {
   towersModel: towers,
   towersSchema: schema,
+  findSchema,
 };

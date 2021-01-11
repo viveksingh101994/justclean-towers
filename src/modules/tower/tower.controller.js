@@ -1,16 +1,30 @@
 const { success, created, badRequest } = require('../../common/response');
-const { findAll } = require('./tower.queries');
 const {
   createNewTower,
   findTower,
   createNewOffices,
   updateTower,
   deleteTowerById,
+  findAllTowers,
 } = require('./tower.bl');
-const { towersSchema } = require('../../models/towers');
+const { towersSchema, findSchema } = require('../../models/towers');
 const { createOfficeSchema } = require('../../models/offices');
 
 class TowerController {
+  static async validateFindAll(req, res, next) {
+    try {
+      const result = await findSchema.validateAsync(req.query);
+      console.log(result);
+      return next();
+    } catch (err) {
+      const resp = badRequest();
+      resp.message = {
+        message: err.message,
+        stack: err.stack,
+      };
+      return next(resp);
+    }
+  }
   static async findTowerById(req, res, next) {
     let {
       params: { id = null },
@@ -87,8 +101,9 @@ class TowerController {
   }
   static async getTowers(req, res, next) {
     try {
-      const towers = await findAll();
-      const successResp = created();
+      const showWithOffices = req.query['show-with-offices'];
+      const towers = await findAllTowers({ showWithOffices, ...req.query });
+      const successResp = success();
       successResp.body = {
         towers,
       };

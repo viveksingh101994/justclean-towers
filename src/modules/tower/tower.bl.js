@@ -5,9 +5,53 @@ const {
   findById,
   updateOfficeCounts,
   deleteTowerById,
+  findAll,
 } = require('./tower.queries');
-
+const { Op } = require('sequelize');
 class TowerBL {
+  static async findAllTowers({
+    showWithOffices = false,
+    limit = 10,
+    sort = null,
+    name = null,
+    page_no = 1,
+    number_of_floors = null,
+    location = null,
+    id = null,
+  }) {
+    const queryBuiler = {};
+    if (showWithOffices === 'true') {
+      queryBuiler.where = {
+        number_of_offices: { [Op.not]: 0 },
+      };
+    }
+    if (id) {
+      queryBuiler.where = { ...queryBuiler.where, id };
+    }
+    if (name) {
+      queryBuiler.where = { ...queryBuiler.where, name };
+    }
+    // eslint-disable-next-line camelcase
+    if (number_of_floors) {
+      queryBuiler.where = { ...queryBuiler.where, number_of_floors };
+    }
+    if (location) {
+      queryBuiler.where = { ...queryBuiler.where, location };
+    }
+    if (limit) {
+      queryBuiler.limit = parseInt(limit);
+    }
+    // eslint-disable-next-line camelcase
+    if (page_no) {
+      queryBuiler.offset = 0 + (parseInt(page_no) - 1) * limit;
+    }
+    if (sort) {
+      const sortingType =
+        sort[0] === '-' ? [sort.slice(1, sort.length), 'DESC'] : [sort, 'ASC'];
+      queryBuiler.order = [sortingType];
+    }
+    return findAll(queryBuiler);
+  }
   static async findTower(id) {
     return findById(id);
   }
