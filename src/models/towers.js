@@ -1,6 +1,5 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/db');
-const { officesModel } = require('./offices');
 const Joi = require('joi');
 const towers = sequelize.define(
   'towers',
@@ -31,8 +30,8 @@ const towers = sequelize.define(
       type: DataTypes.INTEGER,
       defaultValue: 0,
     },
-    latitude: DataTypes.INTEGER,
-    longitude: DataTypes.INTEGER,
+    latitude: DataTypes.DECIMAL,
+    longitude: DataTypes.DECIMAL,
   },
   { timestamps: true }
 );
@@ -76,7 +75,6 @@ const findSchema = Joi.object({
   ),
 });
 
-officesModel.belongsTo(towers, { onDelete: 'CASCADE' });
 module.exports = {
   towersModel: towers,
   towersSchema: schema,

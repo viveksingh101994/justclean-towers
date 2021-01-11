@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/db');
+const { towersModel } = require('./towers');
 const Joi = require('joi');
 
 const offices = sequelize.define(
@@ -25,6 +26,8 @@ const offices = sequelize.define(
   },
   { timestamps: true }
 );
+towersModel.hasMany(offices);
+offices.belongsTo(towersModel, { onDelete: 'CASCADE' });
 
 const officesName = Joi.object().keys({
   name: Joi.string().required(),

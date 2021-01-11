@@ -19,7 +19,9 @@ class TowerBL {
     location = null,
     id = null,
   }) {
-    const queryBuiler = {};
+    const queryBuiler = {
+      include: [{ all: true }],
+    };
     if (showWithOffices === 'true') {
       queryBuiler.where = {
         number_of_offices: { [Op.not]: 0 },
@@ -86,8 +88,8 @@ class TowerBL {
         // eslint-disable-next-line camelcase
         number_of_floors,
         location,
-        longitude,
         latitude,
+        longitude,
       } = towers;
       const { dataValues } = await create({
         name,
