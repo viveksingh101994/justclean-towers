@@ -1,10 +1,15 @@
-const towers = require('../../models/towers');
+const { towersModel } = require('../../models/towers');
+const offices = require('../../models/offices');
 class TowerQueries {
   static async findAll() {
-    return towers.findAll({});
+    return towersModel.findAll({});
   }
   static async create(tower) {
-    return towers.create(tower);
+    return towersModel.create(tower);
+  }
+
+  static async bulkCreateOffice(office) {
+    return offices.bulkCreate(office);
   }
 }
 

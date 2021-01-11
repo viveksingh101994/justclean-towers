@@ -1,11 +1,11 @@
 const offices = require('../models/offices');
-const towers = require('../models/towers');
+const { towersModel } = require('../models/towers');
 const sequelize = require('./db');
 return sequelize
   .authenticate()
   .then((result) => {
     console.log(`SQLite successfully connected!`);
-    return towers.sync();
+    return towersModel.sync();
   })
   .then((result) => {
     console.log(`towers table created`);
