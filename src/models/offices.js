@@ -1,5 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/db');
+const Joi = require('joi');
 
 const offices = sequelize.define(
   'offices',
@@ -14,7 +15,26 @@ const offices = sequelize.define(
       allowNull: false,
     },
   },
+  {
+    indexes: [
+      {
+        unique: true,
+        fields: ['towerId', 'name'],
+      },
+    ],
+  },
   { timestamps: true }
 );
 
-module.exports = offices;
+const officesName = Joi.object().keys({
+  name: Joi.string().required(),
+});
+
+const createOfficeSchema = Joi.object({
+  offices: Joi.array().items(officesName.required()).required(),
+});
+
+module.exports = {
+  officesModel: offices,
+  createOfficeSchema,
+};

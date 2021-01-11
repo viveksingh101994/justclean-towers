@@ -6,13 +6,16 @@ const {
   createTower,
   updateTower,
   deleteTower,
-  createValidator,
+  createTowerValidator,
+  createOfficesValidator,
+  findTowerById,
+  createNewOffices,
 } = require('./tower.controller');
 
 router.get('/', getTowers);
-
-router.post('/', createValidator, createTower);
-router.put('/', updateTower);
-router.delete('/', deleteTower);
+router.post('/:id', createOfficesValidator, findTowerById, createNewOffices);
+router.post('/', createTowerValidator, createTower);
+router.put('/:id', createTowerValidator, findTowerById, updateTower);
+router.delete('/:id', findTowerById, deleteTower);
 
 module.exports = router;

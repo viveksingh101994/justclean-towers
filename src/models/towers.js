@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 const sequelize = require('../database/db');
-const offices = require('./offices');
+const { officesModel } = require('./offices');
 const Joi = require('joi');
 const towers = sequelize.define(
   'towers',
@@ -44,12 +44,6 @@ const schema = Joi.object({
 
   number_of_floors: Joi.number().required(),
 
-  offices: Joi.array()
-    .items({
-      name: Joi.string().required(),
-    })
-    .required(),
-
   rating: Joi.number().integer().min(1).max(5),
 
   latitude: Joi.number(),
@@ -57,7 +51,7 @@ const schema = Joi.object({
   longitude: Joi.number(),
 });
 
-offices.belongsTo(towers);
+officesModel.belongsTo(towers, { onDelete: 'CASCADE' });
 module.exports = {
   towersModel: towers,
   towersSchema: schema,

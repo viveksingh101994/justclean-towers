@@ -1,4 +1,4 @@
-const offices = require('../models/offices');
+const { officesModel } = require('../models/offices');
 const { towersModel } = require('../models/towers');
 const sequelize = require('./db');
 return sequelize
@@ -12,7 +12,7 @@ return sequelize
     return result;
   })
   .then((result) => {
-    return offices.sync();
+    return officesModel.sync();
   })
   .then((result) => {
     return result;
