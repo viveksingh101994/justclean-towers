@@ -1,5 +1,6 @@
 const { officesModel } = require('../models/offices');
 const { towersModel } = require('../models/towers');
+const { usersModel } = require('../models/users');
 const sequelize = require('./db');
 return sequelize
   .authenticate()
@@ -9,12 +10,14 @@ return sequelize
   })
   .then((result) => {
     console.log(`towers table created`);
-    return result;
-  })
-  .then((result) => {
     return officesModel.sync();
   })
   .then((result) => {
+    console.log(`offices table created`);
+    return usersModel.sync();
+  })
+  .then((result) => {
+    console.log(`users table created`);
     return result;
   })
   .catch((error) => {
