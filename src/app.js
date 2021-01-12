@@ -2,6 +2,7 @@ const express = require('express');
 const bodyParser = require('body-parser');
 require('./database/connection');
 const towerRoute = require('./modules/tower/tower.route');
+const authenticationRoute = require('./modules/authentication/authentication.route');
 const app = express();
 const { serverError } = require('./common/response');
 
@@ -9,6 +10,7 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
 app.use('/towers', towerRoute);
+app.use('/authenticate', authenticationRoute);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {

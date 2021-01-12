@@ -2,6 +2,9 @@ const { Router } = require('express');
 // eslint-disable-next-line new-cap
 const router = Router();
 const {
+  validateAuthToken,
+} = require('../authentication/authentication.controller');
+const {
   getTowers,
   createTower,
   updateTower,
@@ -14,9 +17,21 @@ const {
 } = require('./tower.controller');
 
 router.get('/', validateFindAll, getTowers);
-router.post('/:id', createOfficesValidator, findTowerById, createNewOffices);
-router.post('/', createTowerValidator, createTower);
-router.put('/:id', createTowerValidator, findTowerById, updateTower);
-router.delete('/:id', findTowerById, deleteTower);
+router.post(
+  '/:id',
+  validateAuthToken,
+  createOfficesValidator,
+  findTowerById,
+  createNewOffices
+);
+router.post('/', validateAuthToken, createTowerValidator, createTower);
+router.put(
+  '/:id',
+  validateAuthToken,
+  createTowerValidator,
+  findTowerById,
+  updateTower
+);
+router.delete('/:id', validateAuthToken, findTowerById, deleteTower);
 
 module.exports = router;

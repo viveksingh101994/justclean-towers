@@ -7,4 +7,9 @@ module.exports = {
     HOST: process.env.DB_HOST || 'localhost',
   },
   NODE_ENV: process.env.NODE_ENV || 'test',
+  JWT: {
+    SECRET: process.env.JWT_SECRET || 'test',
+    ISSUER: process.env.JWT_ISSUER || 'just-clean',
+    EXPIRY: process.env.JWT_EXPIRY_TIME_IN_SEC || '4000',
+  },
 };

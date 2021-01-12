@@ -13,8 +13,7 @@ const { createOfficeSchema } = require('../../models/offices');
 class TowerController {
   static async validateFindAll(req, res, next) {
     try {
-      const result = await findSchema.validateAsync(req.query);
-      console.log(result);
+      await findSchema.validateAsync(req.query);
       return next();
     } catch (err) {
       const resp = badRequest();
